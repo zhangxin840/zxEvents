@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+    <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>zxEvents</title>
+        <style>
+            body {
+                margin: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+        <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+        <h1> zxEvents module demo </h1>
+        <h2> Highlights</h2>
+        <ul>
+            <li>
+                Support legacy browsers
+            </li>
+            <li>
+                Bind events to any objects
+            </li>
+            <li>
+                Bind DOM events and custom events with the same interface
+            </li>
+            <li>
+                Event delegation
+            </li>
+            <li>
+                Modularized JS programming pattern
+            </li>
+            <li>
+                JSHint code quality
+            </li>
+        </ul>
+
+        <h2> Open console to see test results (Fallback to alert if not supported)</h2>
+        <h2> Test cases: </h2>
+        <ul>
+            <li>
+                <h3> DOM event binding for element object </h3>
+                <p>
+                    <a id="test-target" href="#">Click me to log this element in console</a>
+                </p>
+                <p>
+                    <a id="test-remove-event" href="#">Remove event</a>
+                </p>
+            </li>
+            <li>
+                <h3> Custom binding for any object</h3>
+                <p>
+                    Bind custom event to any object
+                </p>
+                <p>
+                    Bind callback context
+                </p>
+            </li>
+            <li>
+                <h3> Event delegation</h3>
+                <p>
+                    <a id="test-delegate-target" href="#">Click me to see event delegation result</a>
+                </p>
+            </li>
+        </ul>
+        <script src="zxEvents.js"></script>
+        <script>
+            // Avoid `console` errors in browsers that lack a console.
+            ( function() {
+                    var method;
+                    var noop = function() {
+                    };
+                    var methods = ['assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error', 'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log', 'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd', 'timeStamp', 'trace', 'warn'];
+                    var length = methods.length;
+                    var console = (window.console = window.console || {});
+
+                    while (length--) {
+                        method = methods[length];
+
+                        // Only stub undefined methods.
+                        if (!console[method]) {
+                            console[method] = noop;
+                        }
+                    }
+                }());
+
+            // Test code
+            ;(function() {"use strict";
+
+                // Declear dependency
+                var zxEvents = window.TESTAPP.zxEvents;
+
+                var element = document.getElementById("test-target");
+                var removeEventLink = document.getElementById("test-remove-event");
+                var logThis = function() {
+                    console.log(this);
+                };
+                var logValue = function(value) {
+                    console.log(value);
+                };
+                var testObject = {
+                    name : "test"
+                };
+
+                // Fallback for console
+                var alertFallback = true;
+                if ( typeof console === "undefined" || typeof console.log === "undefined") {
+                    console = {};
+                    if (alertFallback) {
+                        console.log = function(msg) {
+                            alert(msg);
+                        };
+                    } else {
+                        console.log = function() {
+                        };
+                    }
+                }
+
+                // Dom events
+                zxEvents.addEvent(element, "click", logThis);
+                zxEvents.addEvent(removeEventLink, "click", function() {
+                    zxEvents.remnoveEvent(element, "click", logThis);
+                });
+
+                // Custom events
+                zxEvents.addEvent(testObject, "customEvent", logThis);
+                zxEvents.addEvent(testObject, "customEvent", logValue);
+                zxEvents.triggerEvent(testObject, "customEvent", [1]);
+                zxEvents.triggerEvent(testObject, "customEvent", [1], testObject);
+
+                // Event delegation
+                zxEvents.delegateEvent(document.getElementsByTagName("body")[0], "click", logThis, "#test-delegate-target");
+            })();
+        </script>
+    </body>
+</html>
