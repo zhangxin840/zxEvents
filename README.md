@@ -41,7 +41,7 @@ JavaScript event binding module.
 
 Event binding is never easy.
 
-### There are several features that could be considered to support in an event binding module:
+There are several features that could be considered to support in an event binding module:
 
 * Cross bowser event binding
 
@@ -57,9 +57,9 @@ Cross browser maybe the lowest hanging fruit. Support for custom binding and mim
 
 Generally, we are there are two kinds of events about event binding:
 
-1.	DOM events like 'click', 'keydown'. They are bound to element objects, triggered by browser, and have event bubbling or capturing.
+*	DOM events like 'click', 'keydown'. They are bound to element objects, triggered by browser, and have event bubbling or capturing.
 
-2.	Custom events. They can be bound to any object. You could use a subscriber pattern to support event listening.
+*	Custom events. They can be bound to any object. You could use a subscriber pattern to support event listening.
 
 Most libraries or technics do not support DOM events and custom events at the same time:
 
@@ -67,14 +67,14 @@ Most libraries or technics do not support DOM events and custom events at the sa
 
 *	Backbone.Events only support custom bindings actuarially, it delegate DOM event bindings to other libraries like jQuery or Zepto.
 
-What zxEvents trying to do is to support DOM events and custom events in the same interface.
+**What zxEvents trying to do is to support DOM events and custom events in the same interface.**
 
 This is the addEvent function in zxEvents:
 
-var addEvent = function(obj, type, fn) {
+        var addEvent = function(obj, type, fn) {
             var events;
             var useCapture;
-
+        
             // For Microsoft
             // If not DOM event, attach callback to obj as custom events of any object
             if (obj.attachEvent && domEvents['on'+type]) {
@@ -197,7 +197,7 @@ Then the callbacks in stack will be invoked level by level, if any of these call
     }
 
 
-## Inspirations:
+# Inspirations:
 
 Backbone.js source code
 
